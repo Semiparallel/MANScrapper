@@ -1,0 +1,139 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using MySql.Data.MySqlClient;
+
+namespace MandACONSOLE
+{
+    class SQLHandler
+    {
+        SQLQuerys SQLQuerys = new SQLQuerys();
+        public static string Server = "";
+        public static string Port = "";
+        public static string Password = "";
+        public static string UserID = "";
+        public static string Database = "";
+        public void GetLoginData()
+        {
+
+            Console.WriteLine("Login Form\nServerIP: ");
+            Server = Console.ReadLine();
+            Console.WriteLine("\nPort: ");
+            Port = Console.ReadLine();
+            Console.WriteLine("\nPassword: ");
+            Password = Console.ReadLine();
+            Console.WriteLine("\nUserName: ");
+            UserID = Console.ReadLine();
+
+        }
+        public MySqlConnection SQLConnection()
+        {
+            StringBuilder errorMessages = new StringBuilder();
+            string connStr = "server=" + Server + ";port=" + Port + ";password=" + Password + ";user id=" + UserID + ";database=" + Database + ";";
+            MySqlConnection conn = new MySqlConnection(connStr);
+            try
+            {
+                conn.Open();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Something went wrong, try again or break whit Ctrl+C\n");
+                errorMessages.Append(
+                        "Message: " + ex.ToString() + "\n" +
+                        "Using:  Server:" + Server + " Port:" + Port + " UserID:" + UserID + " Password: " + Password + ";");
+                Console.WriteLine(errorMessages.ToString());
+            }
+            return conn;
+
+        }
+        public void InsertFromAnimePlanet(string ATitle,
+                            string AType,
+                            string AProducer,
+                            string ARelease,
+                            string ARating,
+                            string ADescription,
+                            string sentence,
+                            byte[] rawData)
+        {
+
+            bool exist = SQLQuerys.ExistingItemCheck(SQLConnection(), ATitle);
+            if (exist)
+            {
+                return;
+            }
+            else
+            {
+                MySqlCommand sqlCmd = new MySqlCommand(SQLQuerys.InsertAnimePlanet, SQLConnection());
+                sqlCmd.Parameters.Add("@Title", MySqlDbType.VarChar).Value = ATitle;
+                sqlCmd.Parameters.Add("@Type", MySqlDbType.VarChar).Value = AType;
+                sqlCmd.Parameters.Add("@Producer", MySqlDbType.VarChar).Value = AProducer;
+                sqlCmd.Parameters.Add("@Release", MySqlDbType.VarChar).Value = ARelease;
+                sqlCmd.Parameters.Add("@Rating", MySqlDbType.VarChar).Value = ARating;
+                sqlCmd.Parameters.Add("@Description", MySqlDbType.VarChar).Value = ADescription;
+                sqlCmd.Parameters.Add("@Tags", MySqlDbType.VarChar).Value = sentence;
+                sqlCmd.Parameters.Add("@Cover", MySqlDbType.Blob, rawData.Length).Value = rawData;
+                using MySqlDataReader reader = sqlCmd.ExecuteReader();
+            }
+        }
+        public void InsertFromMangaPlanet(string ATitle,
+                    string AType,
+                    string AProducer,
+                    string ARelease,
+                    string ARating,
+                    string ADescription,
+                    string sentence,
+                    byte[] rawData)
+        {
+
+            bool exist = SQLQuerys.ExistingItemCheck(SQLConnection(), ATitle);
+            if (exist)
+            {
+                return;
+            }
+            else
+            {
+                MySqlCommand sqlCmd = new MySqlCommand(SQLQuerys.InsertMangaPlanet, SQLConnection());
+                sqlCmd.Parameters.Add("@Title", MySqlDbType.VarChar).Value = ATitle;
+                sqlCmd.Parameters.Add("@Type", MySqlDbType.VarChar).Value = AType;
+                sqlCmd.Parameters.Add("@Producer", MySqlDbType.VarChar).Value = AProducer;
+                sqlCmd.Parameters.Add("@Release", MySqlDbType.VarChar).Value = ARelease;
+                sqlCmd.Parameters.Add("@Rating", MySqlDbType.VarChar).Value = ARating;
+                sqlCmd.Parameters.Add("@Description", MySqlDbType.VarChar).Value = ADescription;
+                sqlCmd.Parameters.Add("@Tags", MySqlDbType.VarChar).Value = sentence;
+                sqlCmd.Parameters.Add("@Cover", MySqlDbType.Blob, rawData.Length).Value = rawData;
+                using MySqlDataReader reader = sqlCmd.ExecuteReader();
+            }
+        }
+        public void InsertFromNovelPlanet(string ATitle,
+                    string AType,
+                    string AProducer,
+                    string ARelease,
+                    string ARating,
+                    string ADescription,
+                    string sentence,
+                    byte[] rawData)
+        {
+
+            bool exist = SQLQuerys.ExistingItemCheck(SQLConnection(), ATitle);
+            if (exist)
+            {
+                return;
+            }
+            else
+            {
+                MySqlCommand sqlCmd = new MySqlCommand(SQLQuerys.InsertNovelPlanet, SQLConnection());
+                sqlCmd.Parameters.Add("@Title", MySqlDbType.VarChar).Value = ATitle;
+                sqlCmd.Parameters.Add("@Type", MySqlDbType.VarChar).Value = AType;
+                sqlCmd.Parameters.Add("@Producer", MySqlDbType.VarChar).Value = AProducer;
+                sqlCmd.Parameters.Add("@Release", MySqlDbType.VarChar).Value = ARelease;
+                sqlCmd.Parameters.Add("@Rating", MySqlDbType.VarChar).Value = ARating;
+                sqlCmd.Parameters.Add("@Description", MySqlDbType.VarChar).Value = ADescription;
+                sqlCmd.Parameters.Add("@Tags", MySqlDbType.VarChar).Value = sentence;
+                sqlCmd.Parameters.Add("@Cover", MySqlDbType.Blob, rawData.Length).Value = rawData;
+                using MySqlDataReader reader = sqlCmd.ExecuteReader();
+            }
+        }
+    }
+}
