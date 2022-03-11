@@ -3,4 +3,4 @@ Backend Script for an SQL Database containing all useful information scraped fro
 
 Next step:
 Switching to GPU processing
->Inputs appreciated
+>Any input is appreciated
