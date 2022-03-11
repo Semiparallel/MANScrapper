@@ -5,8 +5,10 @@ Next step:
 Switching to GPU processing
 >Any input is appreciated
 
-
+## Setup
+To run this project
 SQL set up: 
+```
 Uncomment in Program.cs
 //activate after debugging
 //SQLHandler.GetLoginData();
@@ -16,5 +18,6 @@ SQLHandler.Port = "";
 SQLHandler.Password = "123456789";
 SQLHandler.UserID = "root";
 otherwise its using the crediencals above.
+```
 
 Dont forget to download the repositorys. Its not in .exe format jet so you have to do it yourself.
